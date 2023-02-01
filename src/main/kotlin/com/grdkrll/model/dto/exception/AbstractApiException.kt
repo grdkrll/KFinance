@@ -6,7 +6,7 @@ import com.grdkrll.model.dto.ApiResponse
 import io.ktor.http.*
 
 @JsonIgnoreProperties("cause", "stackTrace", "suppressed", "localizedMessage")
-abstract class AbstractApiException (
+abstract class AbstractApiException(
     @JsonIgnore
     override val status: HttpStatusCode,
     override val message: String

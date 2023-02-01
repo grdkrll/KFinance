@@ -9,10 +9,10 @@ import org.koin.ktor.ext.inject
 fun Route.userRouting() {
     val handler by inject<UserHandler>()
 
-    post("/sign_up") {handler.signUp(this.call)}
-    post("/sign_in") {handler.signIn(this.call)}
+    post("/sign_up") { handler.signUp(this.call) }
+    post("/sign_in") { handler.signIn(this.call) }
     authenticate("jwt") {
-        get("/{handle}") {handler.getByHandle(this.call)}
-        delete("/{handle}") {handler.deleteByHandle(this.call)}
+        get("/{handle}") { handler.getByHandle(this.call) }
+        delete("/{handle}") { handler.deleteByHandle(this.call) }
     }
 }

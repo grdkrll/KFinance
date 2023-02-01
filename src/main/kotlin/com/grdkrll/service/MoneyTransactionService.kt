@@ -11,7 +11,7 @@ enum class SortType {
     FALLING
 }
 
-enum class TransactionType {
+enum class TransactionCategory {
     // expenses
     HOUSING,
     TRANSPORTATION,
@@ -45,7 +45,7 @@ enum class TimePeriodType {
 interface MoneyTransactionService {
     fun addTransaction(session: UserSession, request: MoneyTransactionRequest) : MoneyTransactionResponse
 
-    fun getAllByUser(session: UserSession, type: TransactionType, timeQuery: TimePeriodType, sortQuery: SortType) : List<MoneyTransactionResponse>
+    fun getAllByUser(session: UserSession, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType) : List<MoneyTransactionResponse>
 
     fun findById(session: UserSession, id: Int): MoneyTransactionResponse
 }

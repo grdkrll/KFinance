@@ -28,11 +28,6 @@ repositories {
 
 dependencies {
     // Core
-    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-host-common-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-websockets-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
 
     // Database
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
@@ -46,13 +41,8 @@ dependencies {
     implementation("org.mindrot:jbcrypt:$jbcryptVersion")
 
     // Sessions
-    implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-sessions-jvm:$ktorVersion")
 
     // Serialization
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
 
     // Koin
     implementation("io.insert-koin:koin-ktor:$koinVersion")
@@ -60,8 +50,18 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("io.ktor:ktor-server-core-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-host-common-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-websockets-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-netty-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-status-pages-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-auth-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-sessions-jvm:2.2.2")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.2.2")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:2.2.2")
 
     // Tests
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("io.ktor:ktor-server-tests-jvm:2.2.2")
 }

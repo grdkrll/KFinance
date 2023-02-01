@@ -10,19 +10,11 @@ import com.grdkrll.model.table.MoneyTransactions
 import com.grdkrll.service.MoneyTransactionService
 import com.grdkrll.service.SortType
 import com.grdkrll.service.TimePeriodType
-import com.grdkrll.service.TransactionType
+import com.grdkrll.service.TransactionCategory
 import com.grdkrll.util.UserSession
-import io.ktor.server.util.*
-import org.jetbrains.exposed.sql.SizedIterable
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.javatime.CurrentDateTime
-import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Date
 import java.sql.Timestamp
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.util.Calendar
 
 
 class MoneyTransactionServiceImpl : MoneyTransactionService {
@@ -48,7 +40,7 @@ class MoneyTransactionServiceImpl : MoneyTransactionService {
 
     private fun List<MoneyTransaction>.filterByTime(timeQuery: TimePeriodType): List<MoneyTransaction> {
         val t = Timestamp(System.currentTimeMillis())
-        return when(timeQuery) {
+        return when (timeQuery) {
             TimePeriodType.TODAY -> {
                 val today = Date(t.time).toInstant()
                 val tomorrow = Date(t.time + 24 * 60 * 60 * 1000)
@@ -65,18 +57,26 @@ class MoneyTransactionServiceImpl : MoneyTransactionService {
     override fun addTransaction(session: UserSession, request: MoneyTransactionRequest): MoneyTransactionResponse {
         return transaction {
             val moneyTransaction = MoneyTransaction.new {
-                type = request.type.name
+
+                category = request.category.name
                 sum = request.sum
-                owner = User.findById(session.id)?.id ?: throw UserNotFoundException()
+                type = request.type
+                ownerId = User.findById(session.id)?.id?.value ?: throw UserNotFoundException()
             }
             MoneyTransactionResponse(moneyTransaction)
         }
     }
 
-    override fun getAllByUser(session: UserSession, type: TransactionType, timeQuery: TimePeriodType, sortQuery: SortType): List<MoneyTransactionResponse> {
+    override fun getAllByUser(
+        session: UserSession,
+        type: TransactionCategory,
+        timeQuery: TimePeriodType,
+        sortQuery: SortType
+    ): List<MoneyTransactionResponse> {
         return transaction {
-            MoneyTransaction.find { MoneyTransactions.owner eq session.id }.map { it }
-        }.sortBy(sortQuery).filter { type.name == "ALL" || it.type == type.name }.filterByTime(timeQuery).map { MoneyTransactionResponse(it) }
+            MoneyTransaction.find { MoneyTransactions.ownerId eq session.id }.map { it }
+        }.sortBy(sortQuery).filter { type.name == "ALL" || it.category == type.name }.filterByTime(timeQuery)
+            .map { MoneyTransactionResponse(it) }
     }
 
     override fun findById(session: UserSession, id: Int): MoneyTransactionResponse {

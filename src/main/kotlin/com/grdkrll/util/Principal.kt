@@ -7,7 +7,8 @@ import io.ktor.server.auth.jwt.*
 
 data class UserSession(val id: Int, val email: String)
 
-fun ApplicationCall.getClaim(name: String) = principal<JWTPrincipal>()?.payload?.getClaim(name) ?: throw UnauthorizedException()
+fun ApplicationCall.getClaim(name: String) =
+    principal<JWTPrincipal>()?.payload?.getClaim(name) ?: throw UnauthorizedException()
 
 fun ApplicationCall.getSession() = UserSession(
     id = getClaim("id").asInt(),

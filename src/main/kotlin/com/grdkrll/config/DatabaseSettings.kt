@@ -13,7 +13,7 @@ val config = HikariConfig().apply {
     jdbcUrl = "jdbc:mysql://localhost:3306/KFinance"
     driverClassName = "com.mysql.cj.jdbc.Driver"
     username = "root"
-    password = "realpongo"
+    password = "Passw0rd"
     maximumPoolSize = 10
 }
 

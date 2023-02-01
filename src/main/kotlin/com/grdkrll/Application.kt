@@ -15,7 +15,6 @@ fun Application.module() {
     configureSerialization()
     configureKoin()
     configureDatabase()
-    configureSockets()
     configureRouting()
     configureStatusPages()
 }

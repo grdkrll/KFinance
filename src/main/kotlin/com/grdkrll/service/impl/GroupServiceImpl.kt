@@ -18,15 +18,14 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class GroupServiceImpl : GroupService {
-
     override fun createGroup(request: GroupRequest) {
         return transaction {
-            val groupOwner = User.find {Users.handle eq request.owner }.singleOrNull() ?: throw UserNotFoundException()
-            val group = Group.new {
-                name = request.name
-                owner = groupOwner.id
-                handle = request.handle
-            }
+//            val groupOwner = User.find {Users.handle eq request.owner }.singleOrNull() ?: throw UserNotFoundException()
+//            val group = Group.new {
+//                name = request.name
+//                owner = groupOwner.id
+//                handle = request.handle
+//            }
             addMember(MemberRequest(request.owner, request.handle))
         }
     }

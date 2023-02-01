@@ -10,5 +10,7 @@ class Group(id: EntityID<Int>): IntEntity(id) {
 
     var name by Groups.name
     var handle by Groups.handle
-    var owner by Groups.owner
+//    var owner by Groups.owner
+
+//    var members by User via UsersGroups
 }

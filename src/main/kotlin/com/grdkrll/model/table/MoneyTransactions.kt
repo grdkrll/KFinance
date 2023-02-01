@@ -5,8 +5,9 @@ import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 
 object MoneyTransactions : IntIdTable() {
-    val type = varchar("type", 255)
+    val category = varchar("category", 255)
     val sum = decimal("sum", 64, 3)
-    val owner = reference("owner", Users)
+    val type = bool("type")
+    val ownerId = integer("ownerId")
     val timestamp = timestamp("timestamp").defaultExpression(CurrentTimestamp())
 }
