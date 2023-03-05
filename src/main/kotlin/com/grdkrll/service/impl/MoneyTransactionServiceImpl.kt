@@ -57,7 +57,6 @@ class MoneyTransactionServiceImpl : MoneyTransactionService {
     override fun addTransaction(session: UserSession, request: MoneyTransactionRequest): MoneyTransactionResponse {
         return transaction {
             val moneyTransaction = MoneyTransaction.new {
-
                 category = request.category.name
                 sum = request.sum
                 type = request.type

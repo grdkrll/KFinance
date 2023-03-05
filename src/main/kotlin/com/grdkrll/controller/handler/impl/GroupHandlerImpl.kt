@@ -4,6 +4,7 @@ import com.grdkrll.controller.handler.GroupHandler
 import com.grdkrll.model.dto.group.request.GroupRequest
 import com.grdkrll.model.dto.group.request.MemberRequest
 import com.grdkrll.service.GroupService
+import com.grdkrll.util.getSession
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -15,18 +16,19 @@ class GroupHandlerImpl : GroupHandler, KoinComponent {
 
     override suspend fun createGroup(call: ApplicationCall) {
         val request = call.receive<GroupRequest>()
-        service.createGroup(request)
+        val response = service.createGroup(call.getSession(), request)
+        call.respond(response)
     }
 
     override suspend fun addMember(call: ApplicationCall) {
         val request = call.receive<MemberRequest>()
-        val response = service.addMember(request)
+        val response = service.addMember(call.getSession(), request)
         call.respond(response)
     }
 
     override suspend fun removeMember(call: ApplicationCall) {
         val request = call.receive<MemberRequest>()
-        val response = service.removeMember(request)
+        val response = service.removeMember(call.getSession(), request)
         call.respond(response)
     }
 }
