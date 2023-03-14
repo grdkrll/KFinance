@@ -2,7 +2,7 @@ package com.grdkrll.model.dto.user.response
 
 import com.grdkrll.model.dao.User
 
-class UserResponse(user: User) {
-    val id: Int = user.id.value
-    val handle: String = user.handle
+class UserResponse(val user: User) {
+    val id = user.id.value
+    val email = user.email
 }

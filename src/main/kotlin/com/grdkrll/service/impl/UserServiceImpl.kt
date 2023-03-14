@@ -7,8 +7,8 @@ import com.grdkrll.model.dto.exception.user.UserAlreadyExistsException
 import com.grdkrll.model.dto.exception.user.UserNotFoundException
 import com.grdkrll.model.dto.user.request.UserSignInRequest
 import com.grdkrll.model.dto.user.request.UserSignUpRequest
-import com.grdkrll.model.dto.user.response.TokenResponse
 import com.grdkrll.model.dto.user.response.UserResponse
+import com.grdkrll.model.dto.user.response.UserSignResponse
 import com.grdkrll.model.table.Users
 import com.grdkrll.service.UserService
 import com.grdkrll.util.JwtService
@@ -19,7 +19,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
 class UserServiceImpl : UserService {
-    override fun signUp(request: UserSignUpRequest): UserResponse {
+    override fun signUp(request: UserSignUpRequest): UserSignResponse {
         return transaction {
             if(!User.find {Users.email eq request.email }.empty()) throw UserAlreadyExistsException()
             val user = User.new {
@@ -27,16 +27,17 @@ class UserServiceImpl : UserService {
                 handle = request.handle
                 passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
             }
-            UserResponse(user)
+            val token = JwtService.generate(user.id.value, user.email)
+            UserSignResponse(token, user)
         }
     }
 
-    override fun signIn(request: UserSignInRequest): TokenResponse {
+    override fun signIn(request: UserSignInRequest): UserSignResponse {
         return transaction {
             val user = User.find { Users.email eq request.login or (Users.handle eq request.login) }.singleOrNull()?: throw UserNotFoundException()
             if(!BCrypt.checkpw(request.password, user.passwordHash)) throw PasswordNotMatchException()
             val token = JwtService.generate(user.id.value, user.email)
-            TokenResponse(token)
+            UserSignResponse(token, user)
         }
     }
 

@@ -64,4 +64,5 @@ dependencies {
     // Tests
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:2.2.2")
+    implementation(kotlin("stdlib"))
 }
