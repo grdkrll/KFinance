@@ -10,4 +10,5 @@ interface UserService {
     fun signIn(request: UserSignInRequest) : UserSignResponse
     fun getByHandle(handle: String) : UserResponse
     fun deleteByHandle(handle: String, id: Int) : UserResponse
+    fun signInWithGoogle(googleIdToken: String): UserSignResponse
 }

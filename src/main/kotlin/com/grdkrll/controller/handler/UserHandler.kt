@@ -7,5 +7,6 @@ interface UserHandler {
     suspend fun signIn(call: ApplicationCall)
     suspend fun getByHandle(call: ApplicationCall)
     suspend fun deleteByHandle(call: ApplicationCall)
+    suspend fun signInWithGoogle(call: ApplicationCall)
 
 }

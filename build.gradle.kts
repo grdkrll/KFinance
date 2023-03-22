@@ -65,4 +65,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:2.2.2")
     implementation(kotlin("stdlib"))
+
+    // Google API
+    implementation("com.google.api-client:google-api-client:2.0.0"  )
+    implementation("com.google.http-client:google-http-client-jackson2:1.11.0-beta")
 }
