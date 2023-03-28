@@ -68,7 +68,7 @@ class UserServiceImpl : UserService {
             val transport = GoogleNetHttpTransport.newTrustedTransport()
             val jsonFactory = JacksonFactory()
             val verifier = GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singleton(System.getenv("CLIENT_ID")))
+                .setAudience(Collections.singleton(System.getenv("GOOGLE_API_CLIENT_ID")))
                 .build()
             val idToken = verifier.verify(googleIdToken) ?: throw UserNotFoundException()
             val payload = idToken.payload

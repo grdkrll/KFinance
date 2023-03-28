@@ -7,10 +7,18 @@ val logbackVersion: String by project
 val mysqlVersion: String by project
 val jbcryptVersion: String by project
 
+ktor {
+    docker {
+        jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
+        localImageName.set("kfinance-docker-image")
+        imageTag.set("0.0.1-preview")
+    }
+}
+
 plugins {
     application
     kotlin("jvm") version "1.7.22"
-    id("io.ktor.plugin") version "2.2.1"
+    id("io.ktor.plugin") version "2.2.2"
 }
 
 group = "com.grdkrll"
