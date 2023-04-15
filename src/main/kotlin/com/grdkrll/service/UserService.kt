@@ -1,5 +1,6 @@
 package com.grdkrll.service
 
+import com.grdkrll.model.dto.user.request.UserChangeDataRequest
 import com.grdkrll.model.dto.user.request.UserSignInRequest
 import com.grdkrll.model.dto.user.request.UserSignUpRequest
 import com.grdkrll.model.dto.user.response.UserResponse
@@ -11,4 +12,5 @@ interface UserService {
     fun getByHandle(handle: String) : UserResponse
     fun deleteByHandle(handle: String, id: Int) : UserResponse
     fun signInWithGoogle(googleIdToken: String): UserSignResponse
+    fun changeUserData(data: UserChangeDataRequest): UserSignResponse
 }

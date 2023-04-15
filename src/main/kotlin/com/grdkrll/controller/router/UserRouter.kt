@@ -14,6 +14,7 @@ fun Route.userRouting() {
     post("/google_sign_in") { handler.signInWithGoogle(this.call) }
     authenticate("jwt") {
         get("/{handle}") { handler.getByHandle(this.call) }
+        post("/change_data") { handler.changeData(this.call) }
         delete("/{handle}") { handler.deleteByHandle(this.call) }
     }
 }

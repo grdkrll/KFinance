@@ -1,5 +1,6 @@
 package com.grdkrll.model.dto.group.request
 
 class MemberRequest (
-    val groupId: Int
+    val handle: String,
+    val password: String
 )

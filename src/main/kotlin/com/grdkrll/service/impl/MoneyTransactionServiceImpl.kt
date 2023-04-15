@@ -6,6 +6,7 @@ import com.grdkrll.model.dto.exception.transaction.TransactionNotFoundException
 import com.grdkrll.model.dto.exception.user.UserNotFoundException
 import com.grdkrll.model.dto.money_transaction.request.MoneyTransactionRequest
 import com.grdkrll.model.dto.money_transaction.response.MoneyTransactionResponse
+import com.grdkrll.model.dto.money_transaction.response.TransactionPageResponse
 import com.grdkrll.model.table.MoneyTransactions
 import com.grdkrll.service.MoneyTransactionService
 import com.grdkrll.service.SortType
@@ -71,11 +72,13 @@ class MoneyTransactionServiceImpl : MoneyTransactionService {
         type: TransactionCategory,
         timeQuery: TimePeriodType,
         sortQuery: SortType
-    ): List<MoneyTransactionResponse> {
+    ): TransactionPageResponse {
         return transaction {
-            MoneyTransaction.find { MoneyTransactions.ownerId eq session.id }.map { it }
-        }.sortBy(sortQuery).filter { type.name == "ALL" || it.category == type.name }.filterByTime(timeQuery)
-            .map { MoneyTransactionResponse(it) }
+            val res = MoneyTransaction.find { MoneyTransactions.ownerId eq session.id }.map { it }.sortBy(sortQuery)
+                .filter { type.name == "ALL" || it.category == type.name }.filterByTime(timeQuery)
+                .map { MoneyTransactionResponse(it) }
+            TransactionPageResponse(res, res.size)
+        }
     }
 
     override fun findById(session: UserSession, id: Int): MoneyTransactionResponse {

@@ -3,6 +3,7 @@ package com.grdkrll.controller.handler.impl
 import com.grdkrll.controller.handler.UserHandler
 import com.grdkrll.model.dto.exception.user.EmptyHandleException
 import com.grdkrll.model.dto.user.request.GoogleSignInRequest
+import com.grdkrll.model.dto.user.request.UserChangeDataRequest
 import com.grdkrll.model.dto.user.request.UserSignInRequest
 import com.grdkrll.model.dto.user.request.UserSignUpRequest
 import com.grdkrll.service.UserService
@@ -43,6 +44,12 @@ class UserHandlerImpl : UserHandler, KoinComponent {
     override suspend fun signInWithGoogle(call: ApplicationCall) {
         val token = call.receive<GoogleSignInRequest>().googleIdToken
         val response = service.signInWithGoogle(token)
+        call.respond(response)
+    }
+
+    override suspend fun changeData(call: ApplicationCall) {
+        val data = call.receive<UserChangeDataRequest>()
+        val response = service.changeUserData(data)
         call.respond(response)
     }
 }

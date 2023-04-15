@@ -8,6 +8,7 @@ import com.grdkrll.model.dto.exception.user.PasswordNotMatchException
 import com.grdkrll.model.dto.exception.user.UnauthorizedException
 import com.grdkrll.model.dto.exception.user.UserAlreadyExistsException
 import com.grdkrll.model.dto.exception.user.UserNotFoundException
+import com.grdkrll.model.dto.user.request.UserChangeDataRequest
 import com.grdkrll.model.dto.user.request.UserSignInRequest
 import com.grdkrll.model.dto.user.request.UserSignUpRequest
 import com.grdkrll.model.dto.user.response.UserResponse
@@ -80,6 +81,20 @@ class UserServiceImpl : UserService {
                 val token = JwtService.generate(user.id.value, user.email)
                 UserSignResponse(token, user)
             }
+        }
+    }
+
+    override fun changeUserData(data: UserChangeDataRequest): UserSignResponse {
+        return transaction {
+            val user = User.find { Users.email eq data.email }.singleOrNull() ?: throw UserNotFoundException()
+            if (!BCrypt.checkpw(data.confirmPassword, user.passwordHash)) throw PasswordNotMatchException()
+            user.handle = data.handle
+            user.email = data.email
+            if (data.password.isNotEmpty()) {
+                user.passwordHash = BCrypt.hashpw(data.password, BCrypt.gensalt())
+            }
+            val token = JwtService.generate(user.id.value, user.email)
+            UserSignResponse(token, user)
         }
     }
 

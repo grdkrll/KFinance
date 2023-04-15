@@ -8,4 +8,6 @@ interface GroupHandler {
     suspend fun addMember(call: ApplicationCall)
 
     suspend fun removeMember(call: ApplicationCall)
+
+    suspend fun getAllGroupsOfUser(call: ApplicationCall)
 }

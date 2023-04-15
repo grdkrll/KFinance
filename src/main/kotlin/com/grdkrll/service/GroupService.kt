@@ -9,4 +9,5 @@ interface GroupService {
     fun createGroup(session: UserSession, request: GroupRequest) : GroupResponse
     fun addMember(session: UserSession, request: MemberRequest) : GroupResponse
     fun removeMember(session: UserSession, request: MemberRequest) : GroupResponse
+    fun getAllGroupsOfUser(session: UserSession) : List<GroupResponse>
 }

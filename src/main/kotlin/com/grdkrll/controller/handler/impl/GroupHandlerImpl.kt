@@ -31,4 +31,9 @@ class GroupHandlerImpl : GroupHandler, KoinComponent {
         val response = service.removeMember(call.getSession(), request)
         call.respond(response)
     }
+
+    override suspend fun getAllGroupsOfUser(call: ApplicationCall) {
+        val response = service.getAllGroupsOfUser(call.getSession())
+        call.respond(response)
+    }
 }

@@ -2,6 +2,7 @@ package com.grdkrll.service
 
 import com.grdkrll.model.dto.money_transaction.request.MoneyTransactionRequest
 import com.grdkrll.model.dto.money_transaction.response.MoneyTransactionResponse
+import com.grdkrll.model.dto.money_transaction.response.TransactionPageResponse
 import com.grdkrll.util.UserSession
 
 enum class SortType {
@@ -45,7 +46,7 @@ enum class TimePeriodType {
 interface MoneyTransactionService {
     fun addTransaction(session: UserSession, request: MoneyTransactionRequest) : MoneyTransactionResponse
 
-    fun getAllByUser(session: UserSession, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType) : List<MoneyTransactionResponse>
+    fun getAllByUser(session: UserSession, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType) : TransactionPageResponse
 
     fun findById(session: UserSession, id: Int): MoneyTransactionResponse
 }

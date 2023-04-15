@@ -11,6 +11,7 @@ class Group(id: EntityID<Int>): IntEntity(id) {
     var name by Groups.name
     var handle by Groups.handle
     var ownerId by Groups.ownerId
+    var passwordHash by Groups.passwordHash
 
 //    var members by User via UsersGroups
 }
