@@ -2,6 +2,7 @@ package com.grdkrll.controller.handler.impl
 
 import com.grdkrll.controller.handler.MoneyTransactionHandler
 import com.grdkrll.model.dto.exception.transaction.EmptyTransactionIdException
+import com.grdkrll.model.dto.money_transaction.request.GroupTransactionsRequest
 import com.grdkrll.model.dto.money_transaction.request.MoneyTransactionRequest
 import com.grdkrll.service.MoneyTransactionService
 import com.grdkrll.service.SortType
@@ -28,6 +29,15 @@ class MoneyTransactionHandlerImpl : MoneyTransactionHandler, KoinComponent {
         val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["type"] ?: "ALL")
         val timeQuery = TimePeriodType.valueOf(call.request.queryParameters["time"] ?: "ALL")
         val response = service.getAllByUser(call.getSession(), typeQuery, timeQuery, sortQuery)
+        call.respond(response)
+    }
+
+    override suspend fun getAllByGroup(call: ApplicationCall) {
+        val sortQuery = SortType.valueOf(call.request.queryParameters["sort"] ?: "NEW")
+        val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["type"] ?: "ALL")
+        val timeQuery = TimePeriodType.valueOf(call.request.queryParameters["time"] ?: "ALL")
+        val groupId = call.receive<GroupTransactionsRequest>().groupId
+        val response = service.getAllByGroup(call.getSession(), groupId, typeQuery, timeQuery, sortQuery)
         call.respond(response)
     }
 

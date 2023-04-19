@@ -5,7 +5,7 @@ import java.math.BigDecimal
 
 class MoneyTransactionRequest (
     val type: Boolean,
-    val ownerId: Int,
+    val groupId: Int,
     val category: TransactionCategory,
     val sum: BigDecimal,
 )

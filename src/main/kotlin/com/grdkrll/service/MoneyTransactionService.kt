@@ -28,6 +28,7 @@ enum class TransactionCategory {
     SAVINGS,
     DONATIONS,
     ENTERTAINMENT,
+
     // income
     SALARY,
     GIFTS,
@@ -44,9 +45,18 @@ enum class TimePeriodType {
 }
 
 interface MoneyTransactionService {
-    fun addTransaction(session: UserSession, request: MoneyTransactionRequest) : MoneyTransactionResponse
+    fun addTransaction(session: UserSession, request: MoneyTransactionRequest): MoneyTransactionResponse
 
-    fun getAllByUser(session: UserSession, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType) : TransactionPageResponse
+    fun getAllByUser(
+        session: UserSession,
+        type: TransactionCategory,
+        timeQuery: TimePeriodType,
+        sortQuery: SortType
+    ): TransactionPageResponse
+
+    fun getAllByGroup(
+        session: UserSession, groupId: Int, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType
+    ): TransactionPageResponse
 
     fun findById(session: UserSession, id: Int): MoneyTransactionResponse
 }

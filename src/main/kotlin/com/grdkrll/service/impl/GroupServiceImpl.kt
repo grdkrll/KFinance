@@ -22,10 +22,10 @@ import org.mindrot.jbcrypt.BCrypt
 class GroupServiceImpl : GroupService {
     override fun createGroup(session: UserSession, request: GroupRequest): GroupResponse {
         return transaction {
-            val userId = User.findById(session.id)?.id ?: throw UserNotFoundException()
+            val user = User.findById(session.id) ?: throw UserNotFoundException()
             val group = Group.new {
                 name = request.name
-                ownerId = userId
+                ownerId = user
                 handle = request.handle
                 passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
             }

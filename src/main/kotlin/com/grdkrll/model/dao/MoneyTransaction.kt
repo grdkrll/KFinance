@@ -11,7 +11,8 @@ class MoneyTransaction(id: EntityID<Int>) : IntEntity(id) {
     var category by MoneyTransactions.category
     var sum by MoneyTransactions.sum
     var type by MoneyTransactions.type
-    var ownerId by MoneyTransactions.ownerId
+    var ownerId by User referencedOn MoneyTransactions.ownerId
+    var groupId by MoneyTransactions.groupId
     var timestamp by MoneyTransactions.timestamp
 
 }

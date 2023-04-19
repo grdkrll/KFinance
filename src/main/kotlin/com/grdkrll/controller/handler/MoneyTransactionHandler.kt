@@ -7,6 +7,8 @@ interface MoneyTransactionHandler {
 
     suspend fun getAllByUser(call: ApplicationCall)
 
+    suspend fun getAllByGroup(call: ApplicationCall)
+
     suspend fun findById(call: ApplicationCall)
 
 }
