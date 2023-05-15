@@ -10,9 +10,8 @@ fun Route.transactionRouting() {
     val handler by inject<MoneyTransactionHandler>()
 
     authenticate("jwt") {
-        get("/u") { handler.getAllByUser(this.call) }
-        get("/g") { handler.getAllByGroup(this.call) }
+        get("/get_all_transactions") { handler.getPage(this.call) }
         post("/add_transaction") { handler.addMoneyTransaction(this.call) }
-        post("/{id}") { handler.findById(this.call) }
+        get("/total") { handler.getTotal(this.call) }
     }
 }

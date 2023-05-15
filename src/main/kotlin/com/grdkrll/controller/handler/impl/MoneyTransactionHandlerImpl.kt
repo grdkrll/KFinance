@@ -1,8 +1,6 @@
 package com.grdkrll.controller.handler.impl
 
 import com.grdkrll.controller.handler.MoneyTransactionHandler
-import com.grdkrll.model.dto.exception.transaction.EmptyTransactionIdException
-import com.grdkrll.model.dto.money_transaction.request.GroupTransactionsRequest
 import com.grdkrll.model.dto.money_transaction.request.MoneyTransactionRequest
 import com.grdkrll.service.MoneyTransactionService
 import com.grdkrll.service.SortType
@@ -24,26 +22,29 @@ class MoneyTransactionHandlerImpl : MoneyTransactionHandler, KoinComponent {
         call.respond(response)
     }
 
-    override suspend fun getAllByUser(call: ApplicationCall) {
+    override suspend fun getPage(call: ApplicationCall) {
+        val groupId = (call.request.queryParameters["group_id"]?.toInt() ?: 0)
+        val recent = (call.request.queryParameters["recent"]?.toInt() ?: 0) == 1
+        val page = call.request.queryParameters["page"]?.toInt() ?: 0
         val sortQuery = SortType.valueOf(call.request.queryParameters["sort"] ?: "NEW")
-        val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["type"] ?: "ALL")
+        val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["category"] ?: "ALL")
         val timeQuery = TimePeriodType.valueOf(call.request.queryParameters["time"] ?: "ALL")
-        val response = service.getAllByUser(call.getSession(), typeQuery, timeQuery, sortQuery)
+        val response = if (groupId == 0) service.getPageByUser(
+            call.getSession(),
+            recent,
+            page,
+            typeQuery,
+            timeQuery,
+            sortQuery
+        ) else service.getPageByGroup(call.getSession(), groupId, recent, page, typeQuery, timeQuery, sortQuery)
         call.respond(response)
     }
 
-    override suspend fun getAllByGroup(call: ApplicationCall) {
-        val sortQuery = SortType.valueOf(call.request.queryParameters["sort"] ?: "NEW")
-        val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["type"] ?: "ALL")
+    override suspend fun getTotal(call: ApplicationCall) {
+        val groupId = call.request.queryParameters["groupId"]?.toInt() ?: 0
         val timeQuery = TimePeriodType.valueOf(call.request.queryParameters["time"] ?: "ALL")
-        val groupId = call.receive<GroupTransactionsRequest>().groupId
-        val response = service.getAllByGroup(call.getSession(), groupId, typeQuery, timeQuery, sortQuery)
-        call.respond(response)
-    }
-
-    override suspend fun findById(call: ApplicationCall) {
-        val transactionId = call.parameters["id"]?.toInt() ?: throw EmptyTransactionIdException()
-        val response = service.findById(call.getSession(), transactionId)
+        val typeQuery = TransactionCategory.valueOf(call.request.queryParameters["category"] ?: "ALL")
+        val response = service.getTotal(call.getSession(), groupId, timeQuery, typeQuery)
         call.respond(response)
     }
 }

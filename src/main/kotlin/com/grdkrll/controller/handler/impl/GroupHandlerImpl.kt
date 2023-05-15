@@ -1,8 +1,7 @@
 package com.grdkrll.controller.handler.impl
 
 import com.grdkrll.controller.handler.GroupHandler
-import com.grdkrll.model.dto.group.request.GroupRequest
-import com.grdkrll.model.dto.group.request.MemberRequest
+import com.grdkrll.model.dto.group.request.*
 import com.grdkrll.service.GroupService
 import com.grdkrll.util.getSession
 import io.ktor.server.application.*
@@ -26,14 +25,32 @@ class GroupHandlerImpl : GroupHandler, KoinComponent {
         call.respond(response)
     }
 
-    override suspend fun removeMember(call: ApplicationCall) {
+    override suspend fun leaveGroup(call: ApplicationCall) {
         val request = call.receive<MemberRequest>()
-        val response = service.removeMember(call.getSession(), request)
+        val response = service.leaveGroup(call.getSession(), request)
         call.respond(response)
     }
 
     override suspend fun getAllGroupsOfUser(call: ApplicationCall) {
         val response = service.getAllGroupsOfUser(call.getSession())
+        call.respond(response)
+    }
+
+    override suspend fun getAllMembers(call: ApplicationCall) {
+        val request = call.receive<AllMembersRequest>()
+        val response = service.getAllMembers(call.getSession(), request)
+        call.respond(response)
+    }
+
+    override suspend fun removeMember(call: ApplicationCall) {
+        val request = call.receive<RemoveMemberRequest>()
+        val response = service.removeMember(call.getSession(), request)
+        call.respond(response)
+    }
+
+    override suspend fun changeGroup(call: ApplicationCall) {
+        val request = call.receive<ChangeGroupRequest>()
+        val response = service.changeGroup(call.getSession(), request)
         call.respond(response)
     }
 }

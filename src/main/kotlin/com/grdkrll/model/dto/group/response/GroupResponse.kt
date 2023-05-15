@@ -6,4 +6,5 @@ class GroupResponse(group: Group) {
     val id: Int = group.id.value
     val name: String = group.name
     val handle: String = group.handle
+    val ownerId: Int = group.ownerId.id.value
 }

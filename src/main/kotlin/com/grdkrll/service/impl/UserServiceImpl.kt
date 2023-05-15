@@ -28,7 +28,9 @@ class UserServiceImpl : UserService {
     override fun signUp(request: UserSignUpRequest): UserSignResponse {
         return transaction {
             if (!User.find { Users.email eq request.email }.empty()) throw UserAlreadyExistsException()
+            if (!User.find { Users.handle eq request.handle }.empty()) throw UserAlreadyExistsException()
             val user = User.new {
+                name = request.name
                 email = request.email
                 handle = request.handle
                 passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
@@ -74,9 +76,17 @@ class UserServiceImpl : UserService {
             val idToken = verifier.verify(googleIdToken) ?: throw UserNotFoundException()
             val payload = idToken.payload
             val email = payload.email
+            val name = payload["name"].toString()
             val user = User.find { Users.email eq email }.singleOrNull()
             if (user == null) {
-                signUp(UserSignUpRequest(email, email, ""))
+                signUp(
+                    UserSignUpRequest(
+                        name = name,
+                        handle = email.replace('@', '_').replace('.', '_'),
+                        email = email,
+                        password = ""
+                    )
+                )
             } else {
                 val token = JwtService.generate(user.id.value, user.email)
                 UserSignResponse(token, user)

@@ -1,7 +1,8 @@
 package com.grdkrll.model.dto.user.request
 
 class UserSignUpRequest (
-    val email: String,
+    val name: String,
     val handle: String,
-    val password: String
+    val email: String,
+    val password: String,
 )

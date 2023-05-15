@@ -1,12 +1,12 @@
 package com.grdkrll.model.dto.money_transaction.response
 
 import com.grdkrll.model.dao.MoneyTransaction
-import java.time.temporal.ChronoField
 
-class MoneyTransactionResponse(transaction: MoneyTransaction) {
+class MoneyTransactionResponse(transaction: MoneyTransaction, val ownerHandle: String) {
     val id: Int = transaction.id.value
+    val message: String = transaction.message
     val type: Boolean = transaction.type
     val category: String = transaction.category
     val sum: Double = transaction.sum.toDouble()
-    val timestamp: Long = transaction.timestamp.getLong(ChronoField.INSTANT_SECONDS)
+    val timestamp: String = transaction.timestamp.toString()
 }

@@ -8,6 +8,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 class MoneyTransaction(id: EntityID<Int>) : IntEntity(id) {
     companion object: IntEntityClass<MoneyTransaction>(MoneyTransactions)
 
+    var message by MoneyTransactions.message
     var category by MoneyTransactions.category
     var sum by MoneyTransactions.sum
     var type by MoneyTransactions.type

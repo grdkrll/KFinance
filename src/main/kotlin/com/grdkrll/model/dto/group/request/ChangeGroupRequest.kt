@@ -1,9 +1,8 @@
-package com.grdkrll.model.dto.user.request
+package com.grdkrll.model.dto.group.request
 
-class UserChangeDataRequest(
+class ChangeGroupRequest(
     val name: String,
     val handle: String,
-    val email: String,
     val password: String,
     val confirmPassword: String
 )

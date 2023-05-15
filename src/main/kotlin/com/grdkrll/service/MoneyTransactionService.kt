@@ -2,6 +2,7 @@ package com.grdkrll.service
 
 import com.grdkrll.model.dto.money_transaction.request.MoneyTransactionRequest
 import com.grdkrll.model.dto.money_transaction.response.MoneyTransactionResponse
+import com.grdkrll.model.dto.money_transaction.response.TotalResponse
 import com.grdkrll.model.dto.money_transaction.response.TransactionPageResponse
 import com.grdkrll.util.UserSession
 
@@ -40,23 +41,35 @@ enum class TimePeriodType {
     TODAY,
     THIS_WEEK,
     THIS_MONTH,
-    THIS_YEAR,
     ALL
 }
 
 interface MoneyTransactionService {
     fun addTransaction(session: UserSession, request: MoneyTransactionRequest): MoneyTransactionResponse
 
-    fun getAllByUser(
+    fun getPageByUser(
         session: UserSession,
+        recent: Boolean,
+        page: Int,
         type: TransactionCategory,
         timeQuery: TimePeriodType,
         sortQuery: SortType
     ): TransactionPageResponse
 
-    fun getAllByGroup(
-        session: UserSession, groupId: Int, type: TransactionCategory, timeQuery: TimePeriodType, sortQuery: SortType
+    fun getPageByGroup(
+        session: UserSession,
+        groupId: Int,
+        recent: Boolean,
+        page: Int,
+        type: TransactionCategory,
+        timeQuery: TimePeriodType,
+        sortQuery: SortType
     ): TransactionPageResponse
 
-    fun findById(session: UserSession, id: Int): MoneyTransactionResponse
+    fun getTotal(
+        session: UserSession,
+        groupId: Int,
+        timeQuery: TimePeriodType,
+        category: TransactionCategory
+    ): TotalResponse
 }

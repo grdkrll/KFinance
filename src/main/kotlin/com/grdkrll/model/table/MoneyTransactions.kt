@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 
 object MoneyTransactions : IntIdTable() {
+    val message = varchar("message", 255)
     val category = varchar("category", 255)
     val sum = decimal("sum", 64, 3)
     val type = bool("type")

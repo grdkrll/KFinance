@@ -12,7 +12,10 @@ fun Route.groupRouting() {
     authenticate("jwt") {
         post("/create_group") { handler.createGroup(this.call) }
         post("/add_member") { handler.addMember(this.call) }
-        post("/remove_member") { handler.removeMember(this.call) }
+        post("/leave") { handler.leaveGroup(this.call) }
         get("/get_all") { handler.getAllGroupsOfUser(this.call) }
+        post("/change_group") { handler.changeGroup(this.call) }
+        get("get_all_members") { handler.getAllMembers(this.call) }
+        get("/remove_member") { handler.removeMember(this.call) }
     }
 }
