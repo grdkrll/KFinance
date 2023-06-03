@@ -1,3 +1,6 @@
+/**
+ * This file contains basic configuration for connection to the database (by default uses MySQL)
+ */
 package com.grdkrll.config
 
 import com.grdkrll.model.table.*

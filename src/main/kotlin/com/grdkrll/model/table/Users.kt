@@ -4,6 +4,9 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 
+/**
+ * An Entity Class used for storing Users in the Database
+ */
 object Users: IntIdTable() {
     val name = varchar("name", 255)
     val email = varchar("email", 255)

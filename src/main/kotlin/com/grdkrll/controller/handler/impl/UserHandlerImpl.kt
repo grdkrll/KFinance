@@ -49,7 +49,7 @@ class UserHandlerImpl : UserHandler, KoinComponent {
 
     override suspend fun changeData(call: ApplicationCall) {
         val data = call.receive<UserChangeDataRequest>()
-        val response = service.changeUserData(data)
+        val response = service.changeUserData(call.getSession(), data)
         call.respond(response)
     }
 }

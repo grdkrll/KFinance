@@ -7,18 +7,11 @@ val logbackVersion: String by project
 val mysqlVersion: String by project
 val jbcryptVersion: String by project
 
-ktor {
-    docker {
-        jreVersion.set(io.ktor.plugin.features.JreVersion.JRE_17)
-        localImageName.set("kfinance-docker-image")
-        imageTag.set("0.0.1-preview")
-    }
-}
-
 plugins {
     application
     kotlin("jvm") version "1.7.22"
     id("io.ktor.plugin") version "2.2.2"
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 
 group = "com.grdkrll"
@@ -72,6 +65,6 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     // Google API
-    implementation("com.google.api-client:google-api-client:2.0.0"  )
+    implementation("com.google.api-client:google-api-client:2.0.0")
     implementation("com.google.http-client:google-http-client-jackson2:1.11.0-beta")
 }

@@ -1,3 +1,6 @@
+/**
+ * This file contains basic configuration for dependency injection via Koin Framework
+ */
 package com.grdkrll.config
 
 import com.grdkrll.controller.handler.GroupHandler

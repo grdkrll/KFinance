@@ -7,6 +7,9 @@ import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import com.grdkrll.model.dto.shared.HealthyMessage
 
+/**
+ * An Extension Function used to configure Routes of the API
+ */
 fun Application.configureRouting() {
 
     routing {

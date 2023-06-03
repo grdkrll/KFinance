@@ -16,6 +16,7 @@ import com.grdkrll.model.dto.user.response.UserSignResponse
 import com.grdkrll.model.table.Users
 import com.grdkrll.service.UserService
 import com.grdkrll.util.JwtService
+import com.grdkrll.util.UserSession
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.or
@@ -71,7 +72,7 @@ class UserServiceImpl : UserService {
             val transport = GoogleNetHttpTransport.newTrustedTransport()
             val jsonFactory = JacksonFactory()
             val verifier = GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singleton(System.getenv("GOOGLE_API_CLIENT_ID")))
+                    .setAudience(Collections.singleton(System.getenv("GOOGLE_API_CLIENT_ID")))
                 .build()
             val idToken = verifier.verify(googleIdToken) ?: throw UserNotFoundException()
             val payload = idToken.payload
@@ -94,9 +95,9 @@ class UserServiceImpl : UserService {
         }
     }
 
-    override fun changeUserData(data: UserChangeDataRequest): UserSignResponse {
+    override fun changeUserData(session: UserSession, data: UserChangeDataRequest): UserSignResponse {
         return transaction {
-            val user = User.find { Users.email eq data.email }.singleOrNull() ?: throw UserNotFoundException()
+            val user = User.findById(session.id) ?: throw UserNotFoundException()
             if (!BCrypt.checkpw(data.confirmPassword, user.passwordHash)) throw PasswordNotMatchException()
             user.handle = data.handle
             user.email = data.email

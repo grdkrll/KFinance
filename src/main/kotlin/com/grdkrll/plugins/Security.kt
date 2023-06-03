@@ -1,40 +1,18 @@
 package com.grdkrll.plugins
 
 import io.ktor.server.auth.*
-import io.ktor.util.*
 import io.ktor.server.auth.jwt.*
 import com.auth0.jwt.JWT
-import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.grdkrll.util.JwtService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
-import io.ktor.server.routing.*
 
+/**
+ * An Extension Function used to configure Authentication via JWT Bearer Token for the API
+ */
 fun Application.configureSecurity() {
-
-    authentication {
-        basic(name = "myauth1") {
-            realm = "Ktor Server"
-            validate { credentials ->
-                if (credentials.name == credentials.password) {
-                    UserIdPrincipal(credentials.name)
-                } else {
-                    null
-                }
-            }
-        }
-
-        form(name = "myauth2") {
-            userParamName = "user"
-            passwordParamName = "password"
-            challenge {
-                /**/
-            }
-        }
-    }
     authentication {
         jwt {
             val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()

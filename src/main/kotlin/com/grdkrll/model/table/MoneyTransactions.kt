@@ -4,6 +4,9 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 
+/**
+ * An Entity Class used for storing Transactions in the Database
+ */
 object MoneyTransactions : IntIdTable() {
     val message = varchar("message", 255)
     val category = varchar("category", 255)
